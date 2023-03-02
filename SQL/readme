@@ -1,0 +1,3 @@
+Jeśli chcesz ładowac schemat, użyj
+
+MYSQL_DATABASE: "./SQL" 
