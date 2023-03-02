@@ -8,10 +8,10 @@ services:
     container_name: mariadb 
     image: mariadb:10.6.4
     environment:
-      MARIADB_USER: "PULSKWA"
+      MARIADB_USER: "PCSS"
       MARIADB_PASSWORD: "EinZwei"
       MARIADB_ROOT_PASSWORD: "EinZweiDrei" 
-      MYSQL_DATABASE: "./SQL/Bieda_database.sql" 
+      MYSQL_DATABASE: "./SQL/pcss_database.sql" 
     networks:
       lb_example:
         ipv4_address: 172.28.0.19
