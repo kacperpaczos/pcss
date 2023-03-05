@@ -4,6 +4,7 @@ from mysql.connector import Error
 class database:
     connection = None
     messages = []
+    results = []
     def __init__(self, host_name, user_name, user_password, db_name):
 
         try:
@@ -27,11 +28,20 @@ class database:
             database.connection.commit()
             print("Executed '" + query + "'")
             database.messages.append("Executed '" + query + "'")
-            print(result)
-            database.messages.append(result)
+            #print(result)
+            database.results.append(result)
         except Error as e:
             print(f"The error '{e}' occurred")
             database.messages.append(f"The error '{e}' occurred")
+
+    def clearResult(self):
+        database.results.clear()
+
+    def clearMessages(self):
+        database.messages.clear()
+
+    def getResults(self):
+        return database.results
 
 
 
