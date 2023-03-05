@@ -5,6 +5,7 @@ services:
   #pythonApp:
 
   mariadb:
+    user: mysql:mysql
     container_name: mariadb 
     image: mariadb:10.6.4
     environment:
@@ -17,6 +18,8 @@ services:
         ipv4_address: 172.28.0.19
         aliases:
           - mariadb
+    volumes:
+      - ./SQL/:/docker-entrypoint-initdb.d/:rw
     restart: on-failure
 
   phpmyadmin:

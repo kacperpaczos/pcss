@@ -1,11 +1,11 @@
-FROM python:3
+FROM python:3.8-slim-buster
 
-ADD app.py /
-ADD database.py /
-RUN pip install flask
-RUN pip install flask_restful
-RUN pip install mysql-connector-python
+WORKDIR /pcss
 
-EXPOSE 26379
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
-CMD [ "python", "./app.py" ]
+COPY app.py /
+COPY database.py /
+
+CMD [ "python3", "-m" , "flask", "run", "--host=172.28.0.19"]
