@@ -11,7 +11,7 @@ services:
       MARIADB_USER: "PCSS"
       MARIADB_PASSWORD: "EinZwei"
       MARIADB_ROOT_PASSWORD: "EinZweiDrei" 
-      MYSQL_DATABASE: "./SQL/pcss_database.sql" 
+      MYSQL_DATABASE: pcss
     networks:
       lb_example:
         ipv4_address: 172.28.0.19
@@ -34,17 +34,17 @@ services:
           - phpmyadmin
     restart: on-failure
     
-  restapi:
-    build: 
-      context: ./restAPI
-    links:
-      - mariadb
-    networks:
-      lb_example:
-        ipv4_address: 172.28.0.22
-        aliases:
-          - restapi
-    restart: on-failure
+#  restapi:
+#    build: 
+#      context: ./restAPI
+#    links:
+#      - mariadb
+#    networks:
+#      lb_example:
+#        ipv4_address: 172.28.0.22
+#        aliases:
+#          - restapi
+#    restart: on-failure
 
 
 networks:
