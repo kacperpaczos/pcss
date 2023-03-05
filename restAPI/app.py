@@ -37,9 +37,8 @@ def log(type=None):
 
 @app.route('/api/testConDataBase', methods=['GET','POST'])
 def testConDataBase():
-    #con = DataBase("34.76.135.187", "kpaczos", "|4OX^zT//CdP>gE}", "pluskwa")
-    con = database("172.28.0.19", "root", "EinZweiDrei", "Bieda_database")
-    con.execute("SELECT * FROM `users`;")
+    con = database("172.28.0.19", "root", "EinZweiDrei", "pcss")
+    con.execute("SELECT * FROM `odwiedziny`;")
     print(con.messages)
     json_message = json.dumps(con.messages)
     res = {'status': 'ok'}
@@ -50,6 +49,6 @@ if __name__ == '__main__':
     # connect.execute("SELECT * FROM `Tokens`;")
 
     #### TU ZMIEN ADRES ###
-    #app.run(debug=True, host="172.28.0.22")
+    app.run(debug=True, host="172.28.0.22")
 
-    app.run(debug=True)
+#    app.run(debug=True)
