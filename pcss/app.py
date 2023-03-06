@@ -5,10 +5,36 @@ from database import database
 from datetime import datetime
 from xml.dom import minidom
 import xml
+import xml.parsers
 import yaml
 from misc import *
 
 app = Flask(__name__)
+
+@app.route('/list', methods=['GET','POST'])
+def home():
+    con = database("172.28.0.19", "root", "EinZweiDrei", "pcss")
+
+    now = datetime.now()
+    dt_string = now.strftime("%Y.%m.%d")
+    hm_string = now.strftime("%H:%M")
+    print("date and time =", dt_string)
+
+    data = (dt_string, hm_string, request.remote_addr)
+    con.execute("INSERT INTO `odwiedziny`(`data`, `godzina`, `adres`) VALUES (%s,%s, %s);", data)
+
+    con.queryAll("SELECT * FROM `odwiedziny`;", None)
+
+    listOfIps = con.getResults()
+
+    render = []
+    for x in listOfIps[0]:
+        render.append(TupleToArray(x))
+        print(x)
+
+    con.clearResult()
+    con.clearMessages()
+    return render_template("list.html", ip_list=render)
 @app.route('/', methods=['GET',     'POST'])
 def handle_request():
     headers = dict(request.headers)
@@ -26,22 +52,23 @@ def handle_request():
 
     if 'text/xml' in headers['Content-Type']:
 
-        try:
-            # Utwórz drzewo węzłów na podstawie pliku XML
-            dom = xml.dom.minidom.parse("example.xml")
-        except xml.parsers.expat.ExpatError as e:
-            handle_parse_error
+    #TODO
+#        try:
+#            dom = xml.dom.minidom.parse(content)
+#        except xml.parsers.expat.ExpatError as e:
+#            handle_parse_error_xml()
 
-        response_data = process_xml(dom)
+        response_data = process_xml(content)
         return Response(response_data, mimetype='text/xml')
 
     elif 'text/yaml' in headers['Content-Type']:
-        try:
-            data = yaml.safe_load(content)
-        except yaml.YAMLError:
-            return handle_yaml_error()
+    #TODO
+#        try:
+#            data = yaml.safe_load(content)
+#        except yaml.YAMLError:
+#            return handle_yaml_error()
 
-        response_data = process_yaml(data)
+        response_data = process_yaml(content)
         return Response(response_data, mimetype='application/x-yaml')
 
     elif 'text/html' in headers['Content-Type']:
@@ -57,8 +84,8 @@ def handle_request():
     else:
         return Response('Unsupported format', status=415)
 
-@app.errorhandler(xml.parsers.expat.ExpatError)
-def handle_parse_error(error=None):
+
+def handle_parse_error_xml(error=None):
     message = '<html><body><h1>Parse Error</h1><p>Failed to parse XML.</p></body></html>'
     return Response(message, status=400, mimetype='text/html')
 
