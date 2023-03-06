@@ -11,7 +11,6 @@ RUN pip3 install -r requirements.txt
 
 COPY app.py /pcss
 COPY database.py /pcss
-COPY mimetype.py /pcss
 COPY misc.py /pcss
 COPY static /pcss/static
 COPY templates /pcss/templates
