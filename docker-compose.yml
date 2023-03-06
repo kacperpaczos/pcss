@@ -24,7 +24,7 @@ services:
 
   phpmyadmin:
     container_name: phpmyadmin
-    image: phpmyadmin:5.1.3
+    image: phpmyadmin:5
     environment:
       PMA_HOST: "mariadb"
       MYSQL_ROOT_PASSWORD: "EinZweiDrei"
@@ -37,9 +37,10 @@ services:
           - phpmyadmin
     restart: on-failure
     
-  restapi:
+  pcss:
+    container_name: pcss
     build: 
-      context: ./restAPI
+      context: ./pcss
     links:
       - mariadb
     networks:
