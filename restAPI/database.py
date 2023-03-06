@@ -20,16 +20,31 @@ class database:
             print(f"The error '{e}' occurred")
             database.messages.append(f"The error '{e}' occurred")
 
-    def execute(self, query):
+#    def execute(self, query):
+#        cursor = database.connection.cursor(buffered=True)
+#        try:
+#            cursor.execute(query)
+#            result = cursor.fetchone()
+#            database.connection.commit()
+#            print("Executed '" + query + "'")
+#            database.messages.append("Executed '" + query + "'")
+            #print(result)
+#            database.results.append(result)
+#        except Error as e:
+#            print(f"The error '{e}' occurred")
+#            database.messages.append(f"The error '{e}' occurred")
+
+    def execute(self, query, data):
         cursor = database.connection.cursor(buffered=True)
         try:
-            cursor.execute(query)
-            result = cursor.fetchone()
+            cursor.execute(query, data)
+            result = cursor.fetchall()
             database.connection.commit()
             print("Executed '" + query + "'")
             database.messages.append("Executed '" + query + "'")
-            #print(result)
-            database.results.append(result)
+            if(result != None):
+                #print(result)
+                database.results.append(result)
         except Error as e:
             print(f"The error '{e}' occurred")
             database.messages.append(f"The error '{e}' occurred")
