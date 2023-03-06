@@ -31,6 +31,9 @@ class database:
             print(f"The error '{e}' occurred")
             database.messages.append(f"The error '{e}' occurred")
 
+        # All done, close the cursor
+        cursor.close()
+
     def queryAll(self, query, data):
         cursor = database.connection.cursor(buffered=True)
         try:
@@ -47,6 +50,9 @@ class database:
             print(f"The error '{e}' occurred")
             database.messages.append(f"The error '{e}' occurred")
 
+        # All done, close the cursor
+        cursor.close()
+
     def clearResult(self):
         database.results.clear()
 
@@ -56,5 +62,9 @@ class database:
     def getResults(self):
         return database.results
 
+    def getMessages(self):
+        return database.messages
 
+    def close(self):
+        database.connection.cursor(buffered=True).close()
 
