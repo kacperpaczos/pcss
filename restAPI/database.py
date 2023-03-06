@@ -6,7 +6,6 @@ class database:
     messages = []
     results = []
     def __init__(self, host_name, user_name, user_password, db_name):
-
         try:
             database.connection = mysql.connector.connect(
                 host=host_name,
@@ -20,26 +19,25 @@ class database:
             print(f"The error '{e}' occurred")
             database.messages.append(f"The error '{e}' occurred")
 
-#    def execute(self, query):
-#        cursor = database.connection.cursor(buffered=True)
-#        try:
-#            cursor.execute(query)
-#            result = cursor.fetchone()
-#            database.connection.commit()
-#            print("Executed '" + query + "'")
-#            database.messages.append("Executed '" + query + "'")
-            #print(result)
-#            database.results.append(result)
-#        except Error as e:
-#            print(f"The error '{e}' occurred")
-#            database.messages.append(f"The error '{e}' occurred")
-
     def execute(self, query, data):
+        cursor = database.connection.cursor(buffered=True)
+        try:
+            cursor.execute(query, data)
+            database.connection.commit()
+            print("Executed '" + query + "'")
+            database.messages.append("Executed '" + query + "'")
+
+        except Error as e:
+            print(f"The error '{e}' occurred")
+            database.messages.append(f"The error '{e}' occurred")
+
+    def queryAll(self, query, data):
         cursor = database.connection.cursor(buffered=True)
         try:
             cursor.execute(query, data)
             result = cursor.fetchall()
             database.connection.commit()
+
             print("Executed '" + query + "'")
             database.messages.append("Executed '" + query + "'")
             if(result != None):
