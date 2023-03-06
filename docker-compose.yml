@@ -14,7 +14,7 @@ services:
       MARIADB_ROOT_PASSWORD: "EinZweiDrei" 
       MYSQL_DATABASE: pcss
     networks:
-      lb_example:
+      pcss:
         ipv4_address: 172.28.0.19
         aliases:
           - mariadb
@@ -31,27 +31,29 @@ services:
     ports:
       - '8081:80'
     networks:
-      lb_example:
+      pcss:
         ipv4_address: 172.28.0.30
         aliases:
           - phpmyadmin
     restart: on-failure
     
-#  restapi:
-#    build: 
-#      context: ./restAPI
-#    links:
-#      - mariadb
-#    networks:
-#      lb_example:
-#        ipv4_address: 172.28.0.22
-#        aliases:
-#          - restapi
-#    restart: on-failure
+  restapi:
+    build: 
+      context: ./restAPI
+    links:
+      - mariadb
+    networks:
+      pcss:
+        ipv4_address: 172.28.0.22
+        aliases:
+          - restapi
+    depends_on:
+      - mariadb
+    restart: on-failure
 
 
 networks:
-  lb_example:
+  pcss:
     driver: bridge
     ipam:
       driver: default
